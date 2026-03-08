@@ -1,0 +1,20 @@
+{
+  "name": "x402-ai-api",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "x402 AI Agent Paid API - Pay-per-call AI endpoints with USDC on Arc Testnet",
+  "scripts": {
+    "deploy": "node scripts/deploy.mjs",
+    "server": "node scripts/server.mjs",
+    "agent": "node scripts/agent.mjs",
+    "usage": "node scripts/check-usage.mjs",
+    "demo": "node scripts/run-demo.mjs"
+  },
+  "dependencies": {
+    "@circle-fin/developer-controlled-wallets": "^10.1.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "viem": "^2.46.3"
+  }
+}

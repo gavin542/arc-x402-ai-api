@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>x402 AI Agent API</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>x402 AI Agent Paid API</h1>
+    <p class="subtitle">Pay-per-call AI endpoints with USDC on Arc Testnet</p>
+    <button id="connectBtn" onclick="connectWallet()">Connect MetaMask</button>
+  </header>
+
+  <main>
+    <!-- How it works -->
+    <section id="howSection">
+      <h2>How x402 Works</h2>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <div class="step-text">Call API endpoint</div>
+          <div class="step-detail">Server returns 402 Payment Required</div>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <div class="step-text">Pay USDC on-chain</div>
+          <div class="step-detail">Approve + transfer to contract</div>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-step">
+          <div class="step-num">3</div>
+          <div class="step-text">Retry with TX proof</div>
+          <div class="step-detail">Server verifies payment, returns result</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- API Catalog -->
+    <section id="catalogSection">
+      <div class="section-header">
+        <h2>API Catalog (On-chain)</h2>
+        <button onclick="loadEndpoints()">Refresh</button>
+      </div>
+      <div id="endpointsList" class="endpoints-grid">
+        <p class="muted">Loading endpoints...</p>
+      </div>
+    </section>
+
+    <!-- Try API -->
+    <section id="trySection">
+      <h2>Try an Endpoint</h2>
+      <div class="form-group">
+        <label>Endpoint</label>
+        <select id="apiEndpoint" onchange="updatePrice()">
+          <option value="0">summarize (0.001 USDC)</option>
+          <option value="1">sentiment (0.001 USDC)</option>
+          <option value="2">translate (0.002 USDC)</option>
+          <option value="3">keywords (0.001 USDC)</option>
+        </select>
+      </div>
+      <div class="form-group" id="langGroup" style="display:none">
+        <label>Target Language</label>
+        <select id="targetLang">
+          <option value="es">Spanish</option>
+          <option value="zh">Chinese</option>
+          <option value="ja">Japanese</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Input Text</label>
+        <textarea id="inputText" rows="4" placeholder="Enter text to process...">Blockchain technology enables decentralized applications. Smart contracts automate agreements without intermediaries. USDC is a regulated stablecoin pegged to the US dollar.</textarea>
+      </div>
+      <div class="price-display">
+        <span>Price: </span><span id="priceTag" class="price">0.001000 USDC</span>
+      </div>
+      <button id="callBtn" onclick="callAPI()">Pay & Call API</button>
+      <div id="apiStatus"></div>
+      <div id="apiResult" style="display:none">
+        <h3>Result</h3>
+        <pre id="resultJson"></pre>
+      </div>
+    </section>
+
+    <!-- Revenue Stats -->
+    <section id="statsSection">
+      <div class="section-header">
+        <h2>Revenue & Usage</h2>
+        <button onclick="loadStats()">Refresh</button>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-label">Total Payments</div>
+          <div class="card-value" id="totalPayments">--</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Total Revenue</div>
+          <div class="card-value" id="totalRevenue">--</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Endpoints</div>
+          <div class="card-value" id="totalEndpoints">--</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Payment History -->
+    <section id="historySection">
+      <div class="section-header">
+        <h2>Payment History (On-chain)</h2>
+        <button onclick="loadPayments()">Refresh</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Payer</th>
+              <th>Endpoint</th>
+              <th>Amount</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody id="paymentsBody">
+            <tr><td colspan="5" class="loading">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Contract Info -->
+    <section id="infoSection">
+      <h2>Contract Info</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">Network</span>
+          <span class="info-value">Arc Testnet (Chain ID: 5042002)</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Contract</span>
+          <span class="info-value mono" id="contractAddr">0xFa67C96f60e2A31f6600239B513efc5c88D0334A</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Token</span>
+          <span class="info-value mono">USDC (0x3600...0000)</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Protocol</span>
+          <span class="info-value">x402 (HTTP 402 Payment Required)</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>x402 AI Agent API | Arc Testnet | Powered by Circle & Solidity</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
